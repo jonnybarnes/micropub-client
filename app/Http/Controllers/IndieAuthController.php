@@ -28,8 +28,8 @@ class IndieAuthController extends Controller
         $url = $this->normalizeUrl(request()->input('me'));
         $authEndpoint = \IndieAuth\Client::discoverAuthorizationEndpoint($url);
 
-        if (empty($uathEndpoint)) {
-            return redirect(route('home'))->with(
+        if (empty($authEndpoint) === true) {
+            return redirect()->route('home')->with(
                 'error',
                 'Unable to determine authorization endpoint'
             );
@@ -48,8 +48,8 @@ class IndieAuthController extends Controller
             'create update' // scope
         );
 
-        if (empty($authUrl)) {
-            return redirect(route('home'))->with(
+        if (empty($authUrl) === true) {
+            return redirect()->route('home')->with(
                 'error',
                 'Unable to redirect you to your authorization endpoint'
             );
@@ -66,7 +66,7 @@ class IndieAuthController extends Controller
     public function callback()
     {
         if (session('state') != request()->input('state')) {
-            return redirect(route('home'))->with(
+            return redirect()->route('home')->with(
                 'error',
                 'The states do not match'
             );
@@ -81,7 +81,7 @@ class IndieAuthController extends Controller
         );
 
         if (array_key_exists('error', $verfiedCredentials)) {
-            return redirect(route('home'))->with(
+            return redirect()->route('home')->with(
                 'error',
                 'There was an error verifying the IndieAuth code'
             );
@@ -93,7 +93,7 @@ class IndieAuthController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard'));
+        return redirect()->route('dashboard');
     }
 
     /**
