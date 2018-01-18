@@ -11,7 +11,7 @@ class HomeController extends Controller
     /**
      * Either show the welcome page, or if logged in redirect to dashboard.
      *
-     * @return mixed
+     * @return \Illuminate\Http\Redirect|\Illuminate\View\View
      */
     public function index()
     {

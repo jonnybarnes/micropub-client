@@ -21,7 +21,7 @@ class IndieAuthController extends Controller
     /**
      * Take a login request and send them to their IndieAuth endpoint.
      *
-     * @return mixed
+     * @return \Illuminae\Http\Redirect
      */
     public function login()
     {
@@ -61,7 +61,7 @@ class IndieAuthController extends Controller
     /**
      * Process the callback request from the authorization endpoint.
      *
-     * @return mixed
+     * @return \Illuminate\Http\Redirect
      */
     public function callback()
     {
