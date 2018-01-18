@@ -15,5 +15,6 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::post('/login', 'IndieAuthController@login')->name('login');
 Route::get('/login/callback', 'IndieAuthController@callback')->name('login-callback');
+Route::post('/logout', 'IndieAuthController@logout')->name('logout');
 
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
