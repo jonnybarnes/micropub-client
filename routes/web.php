@@ -11,4 +11,8 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('home');
+
+Route::post('/login', 'IndieAuthController@login')->name('login');
+
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
