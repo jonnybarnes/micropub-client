@@ -45,7 +45,7 @@ class IndieAuthController extends Controller
             route('login-callback'), // redirect_uri
             route('home'), //client_id
             $state,
-            'create update' // scope
+            '' // scope
         );
 
         if (empty($authUrl) === true) {
