@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class IndieAuthController extends Controller
@@ -72,7 +73,7 @@ class IndieAuthController extends Controller
             );
         }
 
-        $verfiedCredentials = \IndieAuth\Client::verifyIndieAuthCode(
+        $verifiedCredentials = \IndieAuth\Client::verifyIndieAuthCode(
             session('auth-endpoint'),
             request()->input('code'),
             request()->input('me'),
@@ -80,7 +81,7 @@ class IndieAuthController extends Controller
             route('home') // client_id
         );
 
-        if (array_key_exists('error', $verfiedCredentials)) {
+        if (array_key_exists('error', $verifiedCredentials)) {
             return redirect()->route('home')->with(
                 'error',
                 'There was an error verifying the IndieAuth code'
@@ -88,12 +89,24 @@ class IndieAuthController extends Controller
         }
 
         $user = User::firstOrCreate([
-            'url' => $this->normalizeUrl($verifyIndieAuthCode['me']),
+            'me' => $this->normalizeUrl($verifiedCredentials['me']),
         ]);
 
         Auth::login($user);
 
         return redirect()->route('dashboard');
+    }
+
+    /**
+     * Logout a user.
+     *
+     * @return \Illuminate\Http\Redirect
+     */
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect()->route('home');
     }
 
     /**
