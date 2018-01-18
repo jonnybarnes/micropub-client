@@ -15,7 +15,7 @@ class IndieAuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->expect('logout');
+        $this->middleware('guest')->except('logout');
     }
 
     /**
@@ -45,7 +45,7 @@ class IndieAuthController extends Controller
             route('login-callback'), // redirect_uri
             route('home'), //client_id
             $state,
-            '' // scope
+            'create update' // scope
         );
 
         if (empty($authUrl)) {
