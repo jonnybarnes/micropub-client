@@ -2,6 +2,11 @@
 
 @section('main')
 <h1>Welcome</h1>
+@if (session('error'))
+<div class="error">
+    {{ session('error') }}
+</div>
+@endif
 <form action="{{ route('login') }}" method="post">
     {{ csrf_field() }}
     <div>
