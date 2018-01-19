@@ -21,6 +21,21 @@
             <th>Micropub Endpoint</th>
             <td>{{ Auth::user()->micropub_endpoint }}</td>
         </tr>
+        <tr>
+            <th>Media Endpoint</th>
+            <td>{{ Auth::user()->media_endpoint }}</td>
+        <tr>
+        <tr>
+            <th>Syndication Targets</th>
+            <td><pre>{{ Auth::user()->syndication_targets }}</pre></td>
+        </tr>
     </tbody>
 </table>
+
+<p>We can query the micropub endpoint to check what, if any, the media endpoint and syndication targets are.</p>
+<form action="{{ route('micropub-query') }}" method="post">
+    {{ csrf_field() }}
+    <button type="submit" name="query">Query Endpoint</button>
+</form>
+
 @endsection

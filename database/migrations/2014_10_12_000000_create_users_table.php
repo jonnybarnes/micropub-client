@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
             $table->text('token')->nullable();
             $table->string('scope')->nullable();
             $table->text('micropub_endpoint')->nullable();
+            $table->text('media_endpoint')->nullable();
+            $table->text('syndication_targets')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
