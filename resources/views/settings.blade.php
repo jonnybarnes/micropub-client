@@ -13,6 +13,14 @@
             <th>token</th>
             <td>{{ Auth::user()->token }}</td>
         </tr>
+        <tr>
+            <th>Scope</th>
+            <td>{{ Auth::user()->scope }}</td>
+        </tr>
+        <tr>
+            <th>Micropub Endpoint</th>
+            <td>{{ Auth::user()->micropub_endpoint }}</td>
+        </tr>
     </tbody>
 </table>
 @endsection

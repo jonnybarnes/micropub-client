@@ -17,6 +17,8 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('me')->unique();
             $table->text('token')->nullable();
+            $table->string('scope')->nullable();
+            $table->text('micropub_endpoint')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

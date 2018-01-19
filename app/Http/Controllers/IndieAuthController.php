@@ -38,14 +38,30 @@ class IndieAuthController extends Controller
     {
         $url = $this->normalizeUrl(request()->input('me'));
         $authEndpoint = \IndieAuth\Client::discoverAuthorizationEndpoint($url);
+        $tokenEndpoint = \IndieAuth\Client::discoverTokenEndpoint($url);
+        $micropubEndpoint = \IndieAuth\Client::discoverMicropubEndpoint($url);
 
         if (empty($authEndpoint) === true) {
             return redirect()->route('home')->with(
                 'error',
-                'Unable to determine authorization endpoint'
+                'Unable to determine the authorization endpoint'
+            );
+        }
+        if (empty($tokenEndpoint) === true) {
+            return redirect()->route('home')->with(
+                'error',
+                'Unable to determine the token endpoint'
+            );
+        }
+        if (empty($micropubEndpoint) === true) {
+            return redirect()->route('home')->with(
+                'error',
+                'Unable to determine the micropub endpoint'
             );
         }
         session(['auth-endpoint' => $authEndpoint]);
+        session(['token-endpoint' => $tokenEndpoint]);
+        session(['micropub-endpoint' => $micropubEndpoint]);
 
         $state = bin2hex(random_bytes(16));
         session(['state' => $state]);
@@ -56,7 +72,7 @@ class IndieAuthController extends Controller
             route('login-callback'), // redirect_uri
             route('home'), //client_id
             $state,
-            '' // scope
+            'create update' // scope
         );
 
         if (empty($authUrl) === true) {
@@ -83,15 +99,15 @@ class IndieAuthController extends Controller
             );
         }
 
-        $verifiedCredentials = \IndieAuth\Client::verifyIndieAuthCode(
-            session('auth-endpoint'),
+        $accessTokenResponse = \IndieAuth\Client::getAccessToken(
+            session('token-endpoint'),
             request()->input('code'),
             request()->input('me'),
             route('login-callback'), // redirect_uri
             route('home') // client_id
         );
 
-        if (array_key_exists('error', $verifiedCredentials)) {
+        if (array_key_exists('access_token', $accessTokenResponse) !== true) {
             return redirect()->route('home')->with(
                 'error',
                 'There was an error verifying the IndieAuth code'
@@ -99,8 +115,12 @@ class IndieAuthController extends Controller
         }
 
         $user = User::firstOrCreate([
-            'me' => $this->normalizeUrl($verifiedCredentials['me']),
+            'me' => $this->normalizeUrl($accessTokenResponse['me']),
         ]);
+        $user->token = $accessTokenResponse['access_token'];
+        $user->scope = $accessTokenResponse['scope'];
+        $user->micropub_endpoint = session('micropub-endpoint');
+        $user->save();
 
         Auth::login($user);
 
