@@ -20,6 +20,16 @@ class IndieAuthController extends Controller
     }
 
     /**
+     * Show a custom login form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showLoginForm()
+    {
+        return view('login');
+    }
+
+    /**
      * Take a login request and send them to their IndieAuth endpoint.
      *
      * @return \Illuminae\Http\Redirect
