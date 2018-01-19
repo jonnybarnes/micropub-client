@@ -33,6 +33,11 @@
 </table>
 
 <p>We can query the micropub endpoint to check what, if any, the media endpoint and syndication targets are.</p>
+@if (session('error'))
+<div class="alert">
+    {{ session('error') }}
+</div>
+@endif
 <form action="{{ route('micropub-query') }}" method="post">
     {{ csrf_field() }}
     <button type="submit" name="query">Query Endpoint</button>
