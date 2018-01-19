@@ -7,4 +7,5 @@
     {{ csrf_field() }}
     <button type="submit">Logout</button>
 </form>
+<p><a href="{{ route('settings') }}">Settings</a></p>
 @endsection

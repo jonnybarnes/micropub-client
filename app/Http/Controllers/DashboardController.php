@@ -25,4 +25,14 @@ class DashboardController extends Controller
     {
         return view('dashboard');
     }
+
+    /**
+     * Show the settings page.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function settings()
+    {
+        return view('settings');
+    }
 }
