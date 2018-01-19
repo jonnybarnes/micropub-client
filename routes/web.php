@@ -13,8 +13,10 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 
+Route::get('/login', 'IndieAuthController@showLoginForm');
 Route::post('/login', 'IndieAuthController@login')->name('login');
 Route::get('/login/callback', 'IndieAuthController@callback')->name('login-callback');
 Route::post('/logout', 'IndieAuthController@logout')->name('logout');
 
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+Route::get('/dashboard/settings', 'DashboardController@settings')->name('settings');
