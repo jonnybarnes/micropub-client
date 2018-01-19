@@ -8,4 +8,5 @@
     <button type="submit">Logout</button>
 </form>
 <p><a href="{{ route('settings') }}">Settings</a></p>
+<p><a href="{{ route('note') }}">New Note</a></p>
 @endsection
