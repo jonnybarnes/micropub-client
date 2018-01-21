@@ -2,10 +2,12 @@
 
 @section('main')
 <h1>Welcome</h1>
-@if (session('error'))
-<div class="error">
-    {{ session('error') }}
-</div>
+@if ($errors->has('indieauth'))
+    @foreach($errors->get('indieauth') as $message)
+        <div class="alert">
+            {{ $message }}
+        </div>
+    @endforeach
 @endif
 <form action="{{ route('login') }}" method="post">
     {{ csrf_field() }}

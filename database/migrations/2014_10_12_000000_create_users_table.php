@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('me')->unique();
             $table->text('token')->nullable();
             $table->string('scope')->nullable();
+            $table->enum('method', ['html5', 'json'])->default('json');
             $table->text('micropub_endpoint')->nullable();
             $table->text('media_endpoint')->nullable();
             $table->text('syndication_targets')->nullable();

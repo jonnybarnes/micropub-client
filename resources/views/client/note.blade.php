@@ -2,6 +2,18 @@
 
 @section('main')
 <h1>New Note</h1>
+@if ($errors->has('micropub'))
+    @foreach ($errors->get('micropub') as $message)
+        <div class="alert">
+            {{ $message }}
+        </div>
+    @endforeach
+@endif
+@if (session('status'))
+<div class="alert">
+    {{ session('error') }}
+</div>
+@endif
 <form action="{{ route('post-note') }}" method="post">
     {{ csrf_field() }}
     <div>

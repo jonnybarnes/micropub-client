@@ -18,6 +18,9 @@
             <td>{{ Auth::user()->scope }}</td>
         </tr>
         <tr>
+            <th>Method</th>
+            <td>{{ Auth::user()->method }}</td>
+        <tr>
             <th>Micropub Endpoint</th>
             <td>{{ Auth::user()->micropub_endpoint }}</td>
         </tr>

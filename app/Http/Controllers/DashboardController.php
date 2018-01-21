@@ -49,10 +49,9 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         if (empty($user->micropub_endpoint) === true) {
-            return redirect()->route('settings')->with(
-                'error',
-                'No micropub endpoint is defined'
-            );
+            return redirect()->route('settings')->withErrors([
+                'dashboard' => 'No micropub endpoint is defined'
+            ]);
         }
 
         try {
@@ -65,10 +64,9 @@ class DashboardController extends Controller
                 ]
             );
         } catch (BadResponseException $exception) {
-            return redirect()->route('settings')->with(
-                'error',
-                'There was an error querying the micropub endpoint'
-            );
+            return redirect()->route('settings')->withErrors([
+                'dashboard' => 'There was an error querying the micropub endpoint',
+            ]);
         }
 
         $data = json_decode((string) $response->getBody(), true);

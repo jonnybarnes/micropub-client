@@ -2,6 +2,13 @@
 
 @section('main')
 <h1>Dashboard</h1>
+@if ($errors->has('dashboard'))
+    @foreach ($errors->get('dashboard') as $message)
+        <div class="alert">
+            {{ $message }}
+        </div>
+    @endforeach
+@endif
 <p>Hi <code>{{ Auth::user()->me }}</code></p>
 <form action="{{ route('logout') }}" method="post">
     {{ csrf_field() }}

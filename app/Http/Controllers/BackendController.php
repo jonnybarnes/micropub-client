@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Client as Guzzle;
+use Illuminate\Support\Facades\Auth;
 
 class BackendController extends Controller
 {
@@ -29,7 +30,7 @@ class BackendController extends Controller
         $headers = ['Authorization' => 'Bearer ' . Auth::user()->token];
         if (Auth::user()->method == 'html5') {
             try {
-                $response = resolve(Guzzle::client)->request(
+                $response = resolve(Guzzle::class)->request(
                     'POST',
                     Auth::user()->micropub_endpoint,
                     [
@@ -41,15 +42,14 @@ class BackendController extends Controller
                     ]
                 );
             } catch (BadResponseException $exception) {
-                return redirect()->route('note')->with(
-                    'error',
-                    'Error sending response to your micropub endpoint'
-                );
+                return redirect()->route('note')->withErrors([
+                    'micropub' => 'Error sending response to your micropub endpoint',
+                ]);
             }
         }
         if (Auth::user()->method == 'json') {
             try {
-                $response = resolve(Guzzle::client)->request(
+                $response = resolve(Guzzle::class)->request(
                     'POST',
                     Auth::user()->micropub_endpoint,
                     [
@@ -63,15 +63,14 @@ class BackendController extends Controller
                     ]
                 );
             } catch (BadResponseException $exception) {
-                return redirect()->route('note')->with(
-                    'error',
-                    'Error sending response to your micropub endpoint'
-                );
+                return redirect()->route('note')->withErrors([
+                    'micropub' => 'Error sending response to your micropub endpoint',
+                ]);
             }
         }
 
         if ($response->hasHeader('Location')) {
-            $redirect = array_get($resposne->getHeader('Location'), 0);
+            $redirect = array_get($response->getHeader('Location'), 0);
             if (empty($redirect) === true) {
                 return redirect()->route('note')->with(
                     'status',
@@ -89,9 +88,8 @@ class BackendController extends Controller
             );
         }
 
-        return redirect()->route('note')->with(
-            'error',
-            'There was an error creating the new note'
-        );
+        return redirect()->route('note')->withErrors([
+            'micropub' => 'There was an error creating the new note'
+        ]);
     }
 }

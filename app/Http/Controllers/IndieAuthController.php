@@ -42,22 +42,19 @@ class IndieAuthController extends Controller
         $micropubEndpoint = \IndieAuth\Client::discoverMicropubEndpoint($url);
 
         if (empty($authEndpoint) === true) {
-            return redirect()->route('home')->with(
-                'error',
-                'Unable to determine the authorization endpoint'
-            );
+            return redirect()->route('home')->withErrors([
+                'indieauth' => 'Unable to determine the authorization endpoint',
+            ]);
         }
         if (empty($tokenEndpoint) === true) {
-            return redirect()->route('home')->with(
-                'error',
-                'Unable to determine the token endpoint'
-            );
+            return redirect()->route('home')->withErrors([
+                'indieauth' => 'Unable to determine the token endpoint',
+            ]);
         }
         if (empty($micropubEndpoint) === true) {
-            return redirect()->route('home')->with(
-                'error',
-                'Unable to determine the micropub endpoint'
-            );
+            return redirect()->route('home')->withErrors([
+                'indieauth' => 'Unable to determine the micropub endpoint',
+            ]);
         }
         session(['auth-endpoint' => $authEndpoint]);
         session(['token-endpoint' => $tokenEndpoint]);
@@ -76,10 +73,9 @@ class IndieAuthController extends Controller
         );
 
         if (empty($authUrl) === true) {
-            return redirect()->route('home')->with(
-                'error',
-                'Unable to redirect you to your authorization endpoint'
-            );
+            return redirect()->route('home')->with([
+                'indieauth' => 'Unable to redirect you to your authorization endpoint',
+            ]);
         }
 
         return redirect($authUrl);
@@ -93,10 +89,9 @@ class IndieAuthController extends Controller
     public function callback()
     {
         if (session('state') != request()->input('state')) {
-            return redirect()->route('home')->with(
-                'error',
-                'The states do not match'
-            );
+            return redirect()->route('home')->withErrors([
+                'indieauth' => 'The states do not match',
+            ]);
         }
 
         $user = User::firstOrCreate([
@@ -113,10 +108,9 @@ class IndieAuthController extends Controller
             );
 
             if (array_key_exists('access_token', $accessTokenResponse) !== true) {
-                return redirect()->route('home')->with(
-                    'error',
-                    'There was an error verifying the IndieAuth code'
-                );
+                return redirect()->route('home')->withErrors([
+                    'indieauth' => 'There was an error verifying the IndieAuth code',
+                ]);
             }
 
             $user->token = $accessTokenResponse['access_token'];
