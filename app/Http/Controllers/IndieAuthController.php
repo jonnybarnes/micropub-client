@@ -99,28 +99,31 @@ class IndieAuthController extends Controller
             );
         }
 
-        $accessTokenResponse = \IndieAuth\Client::getAccessToken(
-            session('token-endpoint'),
-            request()->input('code'),
-            request()->input('me'),
-            route('login-callback'), // redirect_uri
-            route('home') // client_id
-        );
-
-        if (array_key_exists('access_token', $accessTokenResponse) !== true) {
-            return redirect()->route('home')->with(
-                'error',
-                'There was an error verifying the IndieAuth code'
-            );
-        }
-
         $user = User::firstOrCreate([
-            'me' => $this->normalizeUrl($accessTokenResponse['me']),
+            'me' => $this->normalizeUrl(request()->input('me')),
         ]);
-        $user->token = $accessTokenResponse['access_token'];
-        $user->scope = $accessTokenResponse['scope'];
-        $user->micropub_endpoint = session('micropub-endpoint');
-        $user->save();
+
+        if ($user->token === null) {
+            $accessTokenResponse = \IndieAuth\Client::getAccessToken(
+                session('token-endpoint'),
+                request()->input('code'),
+                request()->input('me'),
+                route('login-callback'), // redirect_uri
+                route('home') // client_id
+            );
+
+            if (array_key_exists('access_token', $accessTokenResponse) !== true) {
+                return redirect()->route('home')->with(
+                    'error',
+                    'There was an error verifying the IndieAuth code'
+                );
+            }
+
+            $user->token = $accessTokenResponse['access_token'];
+            $user->scope = $accessTokenResponse['scope'];
+            $user->micropub_endpoint = session('micropub-endpoint');
+            $user->save();
+        }
 
         Auth::login($user);
 
