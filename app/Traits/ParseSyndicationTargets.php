@@ -24,11 +24,11 @@ trait ParseSyndicationTargets
             return [];
         }
 
-        $targets = collect($data)->map(function ($item) {
+        return collect($data)->map(function ($item) {
             return [
                 'uid' => $item->uid,
                 'name' => $item->name,
             ];
-        });
+        })->toArray();
     }
 }
