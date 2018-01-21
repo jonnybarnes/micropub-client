@@ -27,10 +27,12 @@ trait ParseSyndicationTargets
         }
 
         return collect($data)->map(function ($item) {
-            return [
-                'uid' => $item->uid,
-                'name' => $item->name,
-            ];
+            if ($item->uid && $item->name) {
+                return [
+                    'uid' => $item->uid,
+                    'name' => $item->name,
+                ];
+            }
         })->toArray();
     }
 }
