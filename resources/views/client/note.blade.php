@@ -11,7 +11,7 @@
         <fieldset>
             <legend>Syndication</legend>
             @foreach ($targets as $target)
-            <label for="{{ $target['uid']">{{  $target->name }}:</label>
+            <label for="{{ $target['uid'] }}">{{  $target['name'] }}:</label>
             <input id="{{ $target['uid'] }}" name="mp-syndicate-to[]" type="checkbox" value="$target['uid']">
             @endforeach
         </fieldset>
