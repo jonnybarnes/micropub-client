@@ -2,14 +2,5 @@
 
 @section('main')
 <h1>Login</h1>
-<form action="{{ route('login') }}" method="post">
-    {{ csrf_field() }}
-    <div>
-        <label for="me">Homepage:</label>
-        <input type="url" name="me" id="me">
-    </div>
-    <div>
-        <button type="submit">Login</button>
-    </div>
-</form>
+<login-form action="{{ route('login') }}" csrf="{{ csrf_token() }}"></login-form>
 @endsection
