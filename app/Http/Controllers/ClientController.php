@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Traits\ParseSyndicationTargets;
 
 class ClientController extends Controller
 {
-    use ParseSyndicationTargets;
-
     /**
      * Only allow logged in users.
      *
@@ -29,8 +26,7 @@ class ClientController extends Controller
     public function note()
     {
         $user = Auth::user();
-        $syndicationTargets = $this->parseSyndicationTargets($user->syndication_targets);
 
-        return view('client.note', ['targets' => $syndicationTargets]);
+        return view('client.note', ['targets' => $user->syndication_targets]);
     }
 }
