@@ -27,6 +27,9 @@ class ClientController extends Controller
     {
         $user = Auth::user();
 
-        return view('client.note', ['targets' => $user->syndication_targets]);
+        return view('client.note', [
+            'targets' => $user->syndication_targets,
+            'mediaEndpoint' => $user->media_endpoint,
+        ]);
     }
 }
