@@ -16,6 +16,9 @@ window.Vue = require('vue');
  */
 
 Vue.component('login-form', require('./components/LoginFormComponent.vue'));
+Vue.component('logout-form', require('./components/LogoutFormComponent.vue'));
+Vue.component('settings', require('./components/SettingsComponent.vue'));
+Vue.component('new-note-form', require('./components/NewNoteFormComponent.vue'));
 
 const app = new Vue({
     el: '#app'

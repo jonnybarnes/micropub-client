@@ -14,21 +14,5 @@
     {{ session('error') }}
 </div>
 @endif
-<form action="{{ route('post-note') }}" method="post">
-    {{ csrf_field() }}
-    <div>
-        <label for="note">Note:</label>
-        <textarea name="note" id="note"></textarea>
-    </div>
-    <div>
-        <fieldset>
-            <legend>Syndication</legend>
-            @foreach ($targets as $target)
-            <label for="{{ $target['uid'] }}">{{  $target['name'] }}:</label>
-            <input id="{{ $target['uid'] }}" name="mp-syndicate-to[]" type="checkbox" value="$target['uid']">
-            @endforeach
-        </fieldset>
-    </div>
-    <button type="submit" name="submit">Submit</button>
-</form>
+<new-note-form action="{{ route('post-note') }}" csrf="{{ csrf_token() }}" :targets="{{ $targets }}"></new-note-form>
 @endsection
