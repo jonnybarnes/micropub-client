@@ -43,15 +43,15 @@ class DashboardController extends Controller
     /**
      * Query the micropub endpoint for config settings.
      *
-     * @return \Illuminate\Http\Redirect
+     * @return \Illuminate\Http\JsonResponse
      */
     public function queryEndpoint()
     {
         $user = Auth::user();
         if (empty($user->micropub_endpoint) === true) {
-            return redirect()->route('settings')->withErrors([
-                'dashboard' => 'No micropub endpoint is defined'
-            ]);
+            return response()->json([
+                'error' => 'No micropub endpoint defined',
+            ], 400);
         }
 
         try {
@@ -64,9 +64,9 @@ class DashboardController extends Controller
                 ]
             );
         } catch (BadResponseException $exception) {
-            return redirect()->route('settings')->withErrors([
-                'dashboard' => 'There was an error querying the micropub endpoint',
-            ]);
+            return response()->json([
+                'error' => 'There was an error querying the micorpub endpoint'
+            ], 400);
         }
 
         $data = json_decode((string) $response->getBody(), true);
@@ -78,6 +78,9 @@ class DashboardController extends Controller
         }
         $user->save();
 
-        return redirect()->route('settings');
+        return response()->json([
+            'media_endpoint' => $user->media_endpoint,
+            'syndication_targets' => $user->syndication_targets,
+        ]);
     }
 }
