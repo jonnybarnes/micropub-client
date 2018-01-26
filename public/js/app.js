@@ -13601,6 +13601,14 @@ module.exports = Component.exports
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
     props: {
@@ -13612,12 +13620,21 @@ module.exports = {
             type: String,
             required: true
         },
+        media: {
+            type: String,
+            required: false
+        },
         targets: {
             validator: function validator(value) {
                 return value[0].hasOwnProperty('uid') && value[0].hasOwnProperty('name');
             },
             required: false
         }
+    },
+    data: function data() {
+        return {
+            showReply: false
+        };
     }
 };
 
@@ -13635,34 +13652,68 @@ var render = function() {
       domProps: { value: _vm.csrf }
     }),
     _vm._v(" "),
+    _vm.showReply
+      ? _c("div", [
+          _c("label", { attrs: { for: "reply" } }, [_vm._v("Reply To:")]),
+          _vm._v(" "),
+          _c("input", { attrs: { name: "reply", id: "reply" } })
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.showReply == false
+      ? _c(
+          "button",
+          {
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                _vm.showReply = !_vm.showReply
+              }
+            }
+          },
+          [_vm._v("Reply")]
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _vm._m(0),
     _vm._v(" "),
-    _c("div", [
-      _c(
-        "fieldset",
-        [
-          _c("legend", [_vm._v("Syndication")]),
-          _vm._v(" "),
-          _vm._l(_vm.targets, function(target) {
-            return [
-              _c("label", { attrs: { for: target.uid } }, [
-                _vm._v(_vm._s(target.name) + ":")
-              ]),
+    _vm.targets
+      ? _c("div", [
+          _c(
+            "fieldset",
+            [
+              _c("legend", [_vm._v("Syndication")]),
               _vm._v(" "),
-              _c("input", {
-                attrs: {
-                  id: target.uid,
-                  name: "mp-syndicate-to[]",
-                  type: "checkbox"
-                },
-                domProps: { value: target.uid }
+              _vm._l(_vm.targets, function(target) {
+                return [
+                  _c("label", { attrs: { for: target.uid } }, [
+                    _vm._v(_vm._s(target.name) + ":")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: {
+                      id: target.uid,
+                      name: "mp-syndicate-to[]",
+                      type: "checkbox"
+                    },
+                    domProps: { value: target.uid }
+                  })
+                ]
               })
-            ]
-          })
-        ],
-        2
-      )
-    ]),
+            ],
+            2
+          )
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.media
+      ? _c("div", [
+          _c("p", [
+            _vm._v("Media Upload to "),
+            _c("code", [_vm._v(_vm._s(_vm.media))])
+          ])
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _c("button", { attrs: { type: "submit", name: "submit" } }, [
       _vm._v("Submit")
