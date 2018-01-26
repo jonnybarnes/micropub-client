@@ -14,5 +14,5 @@
     {{ session('error') }}
 </div>
 @endif
-<new-note-form action="{{ route('post-note') }}" csrf="{{ csrf_token() }}" :targets="{{ $targets }}"></new-note-form>
+<new-note-form action="{{ route('post-note') }}" csrf="{{ csrf_token() }}" media="{{ $mediaEndpoint }}" :targets="{{ $targets }}"></new-note-form>
 @endsection
