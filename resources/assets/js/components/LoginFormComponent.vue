@@ -6,6 +6,10 @@
             <input type="url" name="me" id="me">
         </div>
         <div>
+            <label for="remember">Remember Me:</label>
+            <input type="checkbox" name="remember" id="remember">
+        </div>
+        <div>
             <button type="submit">Login</button>
         </div>
     </form>

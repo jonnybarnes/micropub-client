@@ -59,6 +59,7 @@ class IndieAuthController extends Controller
         session(['auth-endpoint' => $authEndpoint]);
         session(['token-endpoint' => $tokenEndpoint]);
         session(['micropub-endpoint' => $micropubEndpoint]);
+        session(['remember' => request()->input('remember')]);
 
         $state = bin2hex(random_bytes(16));
         session(['state' => $state]);
@@ -119,7 +120,7 @@ class IndieAuthController extends Controller
             $user->save();
         }
 
-        Auth::login($user);
+        Auth::login($user, session('remember'));
 
         return redirect()->route('dashboard');
     }

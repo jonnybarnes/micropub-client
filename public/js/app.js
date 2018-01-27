@@ -13172,6 +13172,10 @@ module.exports = Component.exports
 //
 //
 //
+//
+//
+//
+//
 
 module.exports = {
     props: {
@@ -13202,7 +13206,9 @@ var render = function() {
     _vm._v(" "),
     _vm._m(0),
     _vm._v(" "),
-    _vm._m(1)
+    _vm._m(1),
+    _vm._v(" "),
+    _vm._m(2)
   ])
 }
 var staticRenderFns = [
@@ -13214,6 +13220,18 @@ var staticRenderFns = [
       _c("label", { attrs: { for: "me" } }, [_vm._v("Homepage:")]),
       _vm._v(" "),
       _c("input", { attrs: { type: "url", name: "me", id: "me" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("label", { attrs: { for: "remember" } }, [_vm._v("Remember Me:")]),
+      _vm._v(" "),
+      _c("input", {
+        attrs: { type: "checkbox", name: "remember", id: "remember" }
+      })
     ])
   },
   function() {
