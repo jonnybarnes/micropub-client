@@ -13627,6 +13627,14 @@ module.exports = Component.exports
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
     props: {
@@ -13638,7 +13646,7 @@ module.exports = {
             type: String,
             required: true
         },
-        media: {
+        mediaEndpoint: {
             type: String,
             required: false
         },
@@ -13647,12 +13655,64 @@ module.exports = {
                 return value[0].hasOwnProperty('uid') && value[0].hasOwnProperty('name');
             },
             required: false
+        },
+        token: {
+            type: String,
+            required: false
         }
     },
     data: function data() {
         return {
-            showReply: false
+            showReply: false,
+            files: '',
+            mediaurls: []
         };
+    },
+    methods: {
+        handleFileUploads: function handleFileUploads() {
+            this.files = this.$refs.files.files;
+        },
+        submitFiles: function submitFiles() {
+            var _this = this;
+
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = this.files[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var file = _step.value;
+
+                    var formData = new FormData();
+                    formData.append('file', file);
+                    axios.post(this.mediaEndpoint, formData, {
+                        headers: {
+                            'Authorization': 'Bearer ' + this.token,
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(function (response) {
+                        setTimeout(function () {
+                            _this.mediaurls.push(response.data.location);
+                        }, 2000);
+                    }).catch(function (response) {
+                        console.error(response);
+                    });
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+        }
     }
 };
 
@@ -13724,12 +13784,50 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    _vm.media
+    _vm.mediaurls.length > 0
+      ? _c(
+          "div",
+          _vm._l(_vm.mediaurls, function(media) {
+            return _c("div", [
+              _c("label", { attrs: { for: media } }, [
+                _c("img", { attrs: { src: media } })
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                attrs: { type: "checkbox", selected: "selected", id: media },
+                domProps: { value: media }
+              })
+            ])
+          })
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.mediaEndpoint
       ? _c("div", [
-          _c("p", [
-            _vm._v("Media Upload to "),
-            _c("code", [_vm._v(_vm._s(_vm.media))])
-          ])
+          _c("label", { attrs: { for: "files" } }, [_vm._v("Media:")]),
+          _vm._v(" "),
+          _c("input", {
+            ref: "files",
+            attrs: { type: "file", id: "files", multiple: "" },
+            on: {
+              change: function($event) {
+                _vm.handleFileUploads()
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  _vm.submitFiles()
+                }
+              }
+            },
+            [_vm._v("Upload Media")]
+          )
         ])
       : _vm._e(),
     _vm._v(" "),
