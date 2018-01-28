@@ -39,6 +39,7 @@
                 <p><code>{{ position.coords.latitude }},{{ position.coords.longitude }}</code> (accuracy: {{ position.coords.accuracy }})</p>
             </div>
             <p v-else>Getting your position</p>
+            <div id="map"></div>
         </div>
         <button type="submit" name="submit">Submit</button>
     </form>
@@ -80,6 +81,15 @@
             }
         },
         methods: {
+            addMap(latitude, longitude) {
+                mapboxgl.accessToken = 'pk.eyJ1Ijoiam9ubnliYXJuZXMiLCJhIjoiY2pjeXpndml6NGRobjJ3bjA2Mjg2NGJnNyJ9.UoViVx1c1JcC2Bs2UlExlA';
+                let map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/streets-v9',
+                    center: [longitude, latitude],
+                    zoom: 4
+                });
+            },
             getLocation() {
                 // first topggle showLocation, which is associated
                 // with the checkbox
@@ -95,7 +105,7 @@
                                 this.position = position;
                             },
                             (error) => {
-                                console.warn(`[geolocation] ERROR(${err.code}): ${err.message}`);
+                                console.warn(`[geolocation] ERROR(${error.code}): ${error.message}`);
                             },
                             {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
                         );
@@ -129,6 +139,18 @@
                     });
                 }
             }
+        },
+        watch: {
+            position: function () {
+                if (this.showLocation == true) {
+                    this.addMap(this.position.coords.latitude, this.position.coords.longitude);
+                }
+            }
         }
     }
 </script>
+<style>
+    #map {
+        height: 200px;
+    }
+</style>

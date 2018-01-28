@@ -9,6 +9,8 @@
         <title>{{ config('app.name') }}</title>
 
         <link rel="stylesheet" href="/css/app.css">
+
+        @yield('head')
     </head>
     <body>
         <div id="app">@yield('main')</div>
