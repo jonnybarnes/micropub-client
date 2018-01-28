@@ -30,6 +30,16 @@
             <input type="file" id="files" ref="files" multiple v-on:change="handleFileUploads()">
             <button type="button" v-on:click="submitFiles()">Upload Media</button>
         </div>
+        <div>
+            <label for="location">Location:</label>
+            <input type="checkbox" :checked="showLocation" id="location" v-on:change="getLocation">
+        </div>
+        <div v-if="showLocation">
+            <div v-if="position">
+                <p><code>{{ position.coords.latitude }},{{ position.coords.longitude }}</code> (accuracy: {{ position.coords.accuracy }})</p>
+            </div>
+            <p v-else>Getting your position</p>
+        </div>
         <button type="submit" name="submit">Submit</button>
     </form>
 </template>
@@ -62,12 +72,36 @@
         },
         data: function () {
             return {
-                showReply: false,
                 files: '',
                 mediaurls: [],
+                position: false,
+                showLocation: false,
+                showReply: false,
             }
         },
         methods: {
+            getLocation() {
+                // first topggle showLocation, which is associated
+                // with the checkbox
+                this.showLocation = !this.showLocation;
+                // now, if we want to show the location, lets save it
+                if (this.showLocation == true) {
+                    // we want to show our position
+                    // do we need to get it?
+                    if (this.position == false) {
+                        navigator.geolocation.getCurrentPosition(
+                            (position) => {
+                                console.log(position);
+                                this.position = position;
+                            },
+                            (error) => {
+                                console.warn(`[geolocation] ERROR(${err.code}): ${err.message}`);
+                            },
+                            {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
+                        );
+                    }
+                }
+            },
             handleFileUploads() {
                 this.files = this.$refs.files.files;
             },
