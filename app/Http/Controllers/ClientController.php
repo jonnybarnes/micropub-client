@@ -29,6 +29,7 @@ class ClientController extends Controller
 
         return view('client.note', [
             'targets' => $user->syndication_targets,
+            'token' => $user->token,
             'mediaEndpoint' => $user->media_endpoint,
         ]);
     }
