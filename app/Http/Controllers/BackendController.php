@@ -27,18 +27,43 @@ class BackendController extends Controller
      */
     public function note()
     {
-        $headers = ['Authorization' => 'Bearer ' . Auth::user()->token];
+        info(request());
+        return response()->json([
+            'response' => 'Note created',
+        ]);
+        /*$headers = ['Authorization' => 'Bearer ' . Auth::user()->token];
         if (Auth::user()->method == 'html5') {
+            $form_params = [
+                'h' => 'entry',
+            ];
+            if (request()->has('content')) {
+                $form_params['content'] = request()->input('content');
+            }
+            if (request()->has('inReplyTo')) {
+                $form_params['in-reply-to'] = request()->input('inReplyTo');
+            }
+            if (request()->has('syndicate')) {
+                foreach (request()->input('syndicate') as $target) {
+                    $form_params['mp-syndicate-to[]'][] = $target;
+                }
+            }
+            if (request()->has('media')) {
+                foreach (request()->input('media') as $media) {
+                    $form_params['media[]'][] = $media;
+                }
+            }
+            if (request()->has('location')) {
+                $form_params['location'] = 'geo:' . request()->input('latitude') 
+                                            . ',' . request()->input('longitude')
+                                          . ';u=' . request()->input('accuracy');
+            }
             try {
                 $response = resolve(Guzzle::class)->request(
                     'POST',
                     Auth::user()->micropub_endpoint,
                     [
                         'headers' => ['Authorization' => 'Bearer ' . Auth::user()->token],
-                        'form_params' => [
-                            'h' => 'entry',
-                            'content' => request()->input('note'),
-                        ],
+                        'form_params' => $form_params,
                     ]
                 );
             } catch (BadResponseException $exception) {
@@ -48,18 +73,35 @@ class BackendController extends Controller
             }
         }
         if (Auth::user()->method == 'json') {
+            $json = [
+                'type' => ['h-entry'],
+                'properties' => [],
+            ];
+            if (request()->has('inReplyTo')) {
+                $json['properties']['in-reply-to'] = request()->input('inReplyTo');
+            }
+            if (request()->has('syndicate')) {
+                foreach (request()->input('syndicate') as $target) {
+                    $json['properties']['mp-syndicate-to'][] = $target;
+                }
+            }
+            if (request()->has('media')) {
+                foreach (request()->input('media') as $media) {
+                    $json['properties']['photo'][] = $media;
+                }
+            }
+            if (request()->has('location')) {
+                $json['properties']['location'] = 'geo:' . request()->input('latitude') 
+                                            . ',' . request()->input('longitude')
+                                          . ';u=' . request()->input('accuracy');
+            }
             try {
                 $response = resolve(Guzzle::class)->request(
                     'POST',
                     Auth::user()->micropub_endpoint,
                     [
                         'headers' => ['Authorization' => 'Bearer ' . Auth::user()->token],
-                        'json' => [
-                            'type' => ['h-entry'],
-                            'properties' => [
-                                'content' => [request()->input('note')],
-                            ],
-                        ],
+                        'json' => $json,
                     ]
                 );
             } catch (BadResponseException $exception) {
@@ -82,7 +124,7 @@ class BackendController extends Controller
         }
 
         if ($response->getStatusCode() == 201) {
-            return redirect()->route('note')->with(
+            return redirect()->route('note')->withErrors(
                 'status',
                 'No location response from micropub endpoint, though status code indicates request was successful'
             );
@@ -90,6 +132,6 @@ class BackendController extends Controller
 
         return redirect()->route('note')->withErrors([
             'micropub' => 'There was an error creating the new note'
-        ]);
+        ]);*/
     }
 }
