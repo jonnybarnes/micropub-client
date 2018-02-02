@@ -23,15 +23,11 @@ class BackendController extends Controller
     /**
      * Process the request to make a new note.
      *
-     * @return \Illuminate\Http\Redirect
+     * @return \Illuminate\Http\JsonResponse
      */
     public function note()
     {
-        info(request());
-        return response()->json([
-            'response' => 'Note created',
-        ]);
-        /*$headers = ['Authorization' => 'Bearer ' . Auth::user()->token];
+        $headers = ['Authorization' => 'Bearer ' . Auth::user()->token];
         if (Auth::user()->method == 'html5') {
             $form_params = [
                 'h' => 'entry',
@@ -67,9 +63,10 @@ class BackendController extends Controller
                     ]
                 );
             } catch (BadResponseException $exception) {
-                return redirect()->route('note')->withErrors([
-                    'micropub' => 'Error sending response to your micropub endpoint',
-                ]);
+                return response()->json([
+                    'error' => 'micropub',
+                    'error_description' => 'There was an error sending the request to your micropub endpoint.',
+                ], 400);
             }
         }
         if (Auth::user()->method == 'json') {
@@ -105,33 +102,39 @@ class BackendController extends Controller
                     ]
                 );
             } catch (BadResponseException $exception) {
-                return redirect()->route('note')->withErrors([
-                    'micropub' => 'Error sending response to your micropub endpoint',
-                ]);
+                return response()->json([
+                    'error' => 'micropub',
+                    'error_description' => 'There was an error sending the request to your micropub endpoint.',
+                ], 400);
             }
         }
 
         if ($response->hasHeader('Location')) {
             $redirect = array_get($response->getHeader('Location'), 0);
             if (empty($redirect) === true) {
-                return redirect()->route('note')->with(
-                    'status',
-                    'Empty location response from micropub endpoint'
-                );
+                return response()->json([
+                    'status' => 'created',
+                    'status_description' => 'Your micropub endpoint returned an empty Location header',
+                ]);
             }
 
-            return redirect($redirect);
+            return response()->json([
+                'status' => 'created',
+                'status_description' => 'The micropub request was successful',
+                'location' => $redirect,
+            ]);
         }
 
         if ($response->getStatusCode() == 201) {
-            return redirect()->route('note')->withErrors(
-                'status',
-                'No location response from micropub endpoint, though status code indicates request was successful'
-            );
+            return resposne()->json([
+                'status' => 'created',
+                'status_description' => 'There was no location header in the response from your micropub endpoint, though the 201 status code indicates the request was successful',
+            ]);
         }
 
-        return redirect()->route('note')->withErrors([
-            'micropub' => 'There was an error creating the new note'
-        ]);*/
+        return response()->json([
+            'error' => 'in_request',
+            'error_description' => 'There was an error creating the micropub request',
+        ], 400);
     }
 }
