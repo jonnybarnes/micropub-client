@@ -14,10 +14,12 @@
         </div>
     @endforeach
 @endif
-@if (session('status'))
-<div class="alert">
-    {{ session('error') }}
-</div>
+@if ($errors->has('status'))
+    @foreach($errors->get('status') as $status)
+        <div class="status">
+            {{ $status }}
+        </div>
+    @endforeach
 @endif
 <new-note-form action="{{ route('post-note') }}" csrf="{{ csrf_token() }}" media-endpoint="{{ $mediaEndpoint }}" :targets="{{ $targets }}" token="{{ $token }}"></new-note-form>
 @endsection
