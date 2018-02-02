@@ -148,7 +148,7 @@
                     ).then(response => {
                         window.setTimeout(() => {
                             this.mediaurls.push(response.data.location);
-                        }, 2000);
+                        }, 3000);
                     }).catch(response => {
                         console.error(response);
                     });
