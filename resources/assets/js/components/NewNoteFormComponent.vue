@@ -1,9 +1,9 @@
 <template>
-    <form :action="action" method="post">
+    <form :action="action" method="post" v-on:submit.prevent="submitForm">
         <input type="hidden" name="_token" :value="csrf">
         <div v-if="showReply">
-            <label for="reply">Reply To:</label>
-            <input name="reply" id="reply">
+            <label for="inReplyTo">Reply To:</label>
+            <input name="inReplyTo" id="inReplyTo">
         </div>
         <button type="button" v-if="showReply == false" v-on:click="showReply = !showReply">Reply</button>
         <div>
@@ -22,7 +22,7 @@
         <div v-if="mediaurls.length > 0">
             <div v-for="media in mediaurls">
                 <label :for="media"><img :src="media"></label>
-                <input type="checkbox" selected="selected" :value="media" :id="media">
+                <input type="checkbox" checked="checked" :value="media" :id="media" name="media[]">
             </div>
         </div>
         <div v-if="mediaEndpoint">
@@ -32,11 +32,14 @@
         </div>
         <div>
             <label for="location">Location:</label>
-            <input type="checkbox" id="location" v-model="showLocation">
+            <input type="checkbox" id="location" name="location" v-model="showLocation">
         </div>
         <div v-show="showLocation">
             <div v-if="position">
                 <p><code>{{ position.coords.latitude }},{{ position.coords.longitude }}</code> (accuracy: {{ position.coords.accuracy }})</p>
+                <input type="hidden" name="latitude" :value="position.coords.latitude">
+                <input type="hidden" name="longitude" :value="position.coords.longitude">
+                <input type="hidden" name="accuracy" :value="position.coords.accuracy">
             </div>
             <p v-else>Getting your position</p>
             <div id="map" v-show="position"></div>
@@ -143,15 +146,69 @@
                             }
                         }
                     ).then(response => {
-                        // we put a timeout to allow for any image processing
-                        // that might take place
-                        setTimeout(() => {
-                            this.mediaurls.push(response.data.location)
+                        window.setTimeout(() => {
+                            this.mediaurls.push(response.data.location);
                         }, 2000);
                     }).catch(response => {
                         console.error(response);
                     });
                 }
+            },
+            submitForm () {
+                let form = document.querySelector('form');
+                //console.log(form.note.value);
+                let data = {};
+                if (form.note && form.note.value) {
+                    data.content = form.note.value;
+                }
+                if (form.reply && form.reply.value) {
+                    data.inReplyTo = form.reply.value;
+                }
+                if (form['mp-syndicate-to[]']) {
+                    if (form['mp-syndicate-to[]'].nodeName == 'INPUT') {
+                        if (form['mp-syndicate-to[]'].checked == true) {
+                            data.syndicate = [form['mp-syndicate-to[]'].value];
+                        }
+                    } else {
+                        let targets = [];
+                        for (let target of form['mp-syndicate-to[]']) {
+                            if (target.checked == true) {
+                                targets.push(target.value);
+                            }
+                        }
+                        if (targets.length > 0) {
+                            data.syndicate = targets;
+                        }
+                    }
+                }
+                if (form['media[]']) {
+                    if (form['media[]'].nodeName == 'INPUT') {
+                        if (form['media[]'].checked == true) {
+                            data.media = [form['media[]'].value];
+                        }
+                    } else {
+                        let mediaLinks = [];
+                        for (let mediaLink of form['media[]']) {
+                            if (mediaLink.checked == true) {
+                                mediaLinks.push(mediaLink.value);
+                            }
+                        }
+                        if (mediaLinks.length > 0) {
+                            data.media = mediaLinks;
+                        }
+                    }
+                }
+                if (form.location && form.location.value == true) {
+                    data.location = {};
+                    data.location.latitude = form.latitude.value;
+                    data.location.longitude = form.longitude.value;
+                    data.location.accuracy = form.accuracy.value;
+                }
+                axios.post(this.action, data).then(response => {
+                    console.log(response);
+                }).catch(response => {
+                    console.error(response);
+                });
             }
         },
         watch: {
