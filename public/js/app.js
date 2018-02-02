@@ -14026,6 +14026,9 @@ module.exports = function listToStyles (parentId, list) {
 //
 //
 //
+//
+//
+//
 
 module.exports = {
     props: {
@@ -14125,11 +14128,9 @@ module.exports = {
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(function (response) {
-                        // we put a timeout to allow for any image processing
-                        // that might take place
-                        setTimeout(function () {
+                        window.setTimeout(function () {
                             _this2.mediaurls.push(response.data.location);
-                        }, 2000);
+                        }, 3000);
                     }).catch(function (response) {
                         console.error(response);
                     });
@@ -14148,6 +14149,106 @@ module.exports = {
                     }
                 }
             }
+        },
+        submitForm: function submitForm() {
+            var form = document.querySelector('form');
+            //console.log(form.note.value);
+            var data = {};
+            if (form.note && form.note.value) {
+                data.content = form.note.value;
+            }
+            if (form.reply && form.reply.value) {
+                data.inReplyTo = form.reply.value;
+            }
+            if (form['mp-syndicate-to[]']) {
+                if (form['mp-syndicate-to[]'].nodeName == 'INPUT') {
+                    if (form['mp-syndicate-to[]'].checked == true) {
+                        data.syndicate = [form['mp-syndicate-to[]'].value];
+                    }
+                } else {
+                    var targets = [];
+                    var _iteratorNormalCompletion2 = true;
+                    var _didIteratorError2 = false;
+                    var _iteratorError2 = undefined;
+
+                    try {
+                        for (var _iterator2 = form['mp-syndicate-to[]'][Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                            var target = _step2.value;
+
+                            if (target.checked == true) {
+                                targets.push(target.value);
+                            }
+                        }
+                    } catch (err) {
+                        _didIteratorError2 = true;
+                        _iteratorError2 = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                                _iterator2.return();
+                            }
+                        } finally {
+                            if (_didIteratorError2) {
+                                throw _iteratorError2;
+                            }
+                        }
+                    }
+
+                    if (targets.length > 0) {
+                        data.syndicate = targets;
+                    }
+                }
+            }
+            if (form['media[]']) {
+                if (form['media[]'].nodeName == 'INPUT') {
+                    if (form['media[]'].checked == true) {
+                        data.media = [form['media[]'].value];
+                    }
+                } else {
+                    var mediaLinks = [];
+                    var _iteratorNormalCompletion3 = true;
+                    var _didIteratorError3 = false;
+                    var _iteratorError3 = undefined;
+
+                    try {
+                        for (var _iterator3 = form['media[]'][Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                            var mediaLink = _step3.value;
+
+                            if (mediaLink.checked == true) {
+                                mediaLinks.push(mediaLink.value);
+                            }
+                        }
+                    } catch (err) {
+                        _didIteratorError3 = true;
+                        _iteratorError3 = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                                _iterator3.return();
+                            }
+                        } finally {
+                            if (_didIteratorError3) {
+                                throw _iteratorError3;
+                            }
+                        }
+                    }
+
+                    if (mediaLinks.length > 0) {
+                        data.media = mediaLinks;
+                    }
+                }
+            }
+            if (form.location && form.location.value == true) {
+                data.location = {};
+                data.location.latitude = form.latitude.value;
+                data.location.longitude = form.longitude.value;
+                data.location.accuracy = form.accuracy.value;
+            }
+            axios.post(this.action, data).then(function (response) {
+                console.log(response);
+            }).catch(function (response) {
+                console.error(response);
+            });
         }
     },
     watch: {
@@ -14170,203 +14271,235 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("form", { attrs: { action: _vm.action, method: "post" } }, [
-    _c("input", {
-      attrs: { type: "hidden", name: "_token" },
-      domProps: { value: _vm.csrf }
-    }),
-    _vm._v(" "),
-    _vm.showReply
-      ? _c("div", [
-          _c("label", { attrs: { for: "reply" } }, [_vm._v("Reply To:")]),
-          _vm._v(" "),
-          _c("input", { attrs: { name: "reply", id: "reply" } })
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.showReply == false
-      ? _c(
-          "button",
-          {
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                _vm.showReply = !_vm.showReply
-              }
-            }
-          },
-          [_vm._v("Reply")]
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _vm.targets
-      ? _c("div", [
-          _c(
-            "fieldset",
-            [
-              _c("legend", [_vm._v("Syndication")]),
-              _vm._v(" "),
-              _vm._l(_vm.targets, function(target) {
-                return [
-                  _c("label", { attrs: { for: target.uid } }, [
-                    _vm._v(_vm._s(target.name) + ":")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    attrs: {
-                      id: target.uid,
-                      name: "mp-syndicate-to[]",
-                      type: "checkbox"
-                    },
-                    domProps: { value: target.uid }
-                  })
-                ]
-              })
-            ],
-            2
-          )
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.mediaurls.length > 0
-      ? _c(
-          "div",
-          _vm._l(_vm.mediaurls, function(media) {
-            return _c("div", [
-              _c("label", { attrs: { for: media } }, [
-                _c("img", { attrs: { src: media } })
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                attrs: { type: "checkbox", selected: "selected", id: media },
-                domProps: { value: media }
-              })
-            ])
-          })
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.mediaEndpoint
-      ? _c("div", [
-          _c("label", { attrs: { for: "files" } }, [_vm._v("Media:")]),
-          _vm._v(" "),
-          _c("input", {
-            ref: "files",
-            attrs: { type: "file", id: "files", multiple: "" },
-            on: {
-              change: function($event) {
-                _vm.handleFileUploads()
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c(
+  return _c(
+    "form",
+    {
+      attrs: { action: _vm.action, method: "post" },
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+          _vm.submitForm($event)
+        }
+      }
+    },
+    [
+      _c("input", {
+        attrs: { type: "hidden", name: "_token" },
+        domProps: { value: _vm.csrf }
+      }),
+      _vm._v(" "),
+      _vm.showReply
+        ? _c("div", [
+            _c("label", { attrs: { for: "inReplyTo" } }, [_vm._v("Reply To:")]),
+            _vm._v(" "),
+            _c("input", { attrs: { name: "inReplyTo", id: "inReplyTo" } })
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.showReply == false
+        ? _c(
             "button",
             {
               attrs: { type: "button" },
               on: {
                 click: function($event) {
-                  _vm.submitFiles()
+                  _vm.showReply = !_vm.showReply
                 }
               }
             },
-            [_vm._v("Upload Media")]
+            [_vm._v("Reply")]
           )
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _c("div", [
-      _c("label", { attrs: { for: "location" } }, [_vm._v("Location:")]),
+        : _vm._e(),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.showLocation,
-            expression: "showLocation"
-          }
-        ],
-        attrs: { type: "checkbox", id: "location" },
-        domProps: {
-          checked: Array.isArray(_vm.showLocation)
-            ? _vm._i(_vm.showLocation, null) > -1
-            : _vm.showLocation
-        },
-        on: {
-          change: function($event) {
-            var $$a = _vm.showLocation,
-              $$el = $event.target,
-              $$c = $$el.checked ? true : false
-            if (Array.isArray($$a)) {
-              var $$v = null,
-                $$i = _vm._i($$a, $$v)
-              if ($$el.checked) {
-                $$i < 0 && (_vm.showLocation = $$a.concat([$$v]))
-              } else {
-                $$i > -1 &&
-                  (_vm.showLocation = $$a
-                    .slice(0, $$i)
-                    .concat($$a.slice($$i + 1)))
+      _vm._m(0),
+      _vm._v(" "),
+      _vm.targets
+        ? _c("div", [
+            _c(
+              "fieldset",
+              [
+                _c("legend", [_vm._v("Syndication")]),
+                _vm._v(" "),
+                _vm._l(_vm.targets, function(target) {
+                  return [
+                    _c("label", { attrs: { for: target.uid } }, [
+                      _vm._v(_vm._s(target.name) + ":")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      attrs: {
+                        id: target.uid,
+                        name: "mp-syndicate-to[]",
+                        type: "checkbox"
+                      },
+                      domProps: { value: target.uid }
+                    })
+                  ]
+                })
+              ],
+              2
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.mediaurls.length > 0
+        ? _c(
+            "div",
+            _vm._l(_vm.mediaurls, function(media) {
+              return _c("div", [
+                _c("label", { attrs: { for: media } }, [
+                  _c("img", { attrs: { src: media } })
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: {
+                    type: "checkbox",
+                    checked: "checked",
+                    id: media,
+                    name: "media[]"
+                  },
+                  domProps: { value: media }
+                })
+              ])
+            })
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.mediaEndpoint
+        ? _c("div", [
+            _c("label", { attrs: { for: "files" } }, [_vm._v("Media:")]),
+            _vm._v(" "),
+            _c("input", {
+              ref: "files",
+              attrs: { type: "file", id: "files", multiple: "" },
+              on: {
+                change: function($event) {
+                  _vm.handleFileUploads()
+                }
               }
-            } else {
-              _vm.showLocation = $$c
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    _vm.submitFiles()
+                  }
+                }
+              },
+              [_vm._v("Upload Media")]
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", [
+        _c("label", { attrs: { for: "location" } }, [_vm._v("Location:")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.showLocation,
+              expression: "showLocation"
+            }
+          ],
+          attrs: { type: "checkbox", id: "location", name: "location" },
+          domProps: {
+            checked: Array.isArray(_vm.showLocation)
+              ? _vm._i(_vm.showLocation, null) > -1
+              : _vm.showLocation
+          },
+          on: {
+            change: function($event) {
+              var $$a = _vm.showLocation,
+                $$el = $event.target,
+                $$c = $$el.checked ? true : false
+              if (Array.isArray($$a)) {
+                var $$v = null,
+                  $$i = _vm._i($$a, $$v)
+                if ($$el.checked) {
+                  $$i < 0 && (_vm.showLocation = $$a.concat([$$v]))
+                } else {
+                  $$i > -1 &&
+                    (_vm.showLocation = $$a
+                      .slice(0, $$i)
+                      .concat($$a.slice($$i + 1)))
+                }
+              } else {
+                _vm.showLocation = $$c
+              }
             }
           }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.showLocation,
-            expression: "showLocation"
-          }
-        ]
-      },
-      [
-        _vm.position
-          ? _c("div", [
-              _c("p", [
-                _c("code", [
-                  _vm._v(
-                    _vm._s(_vm.position.coords.latitude) +
-                      "," +
-                      _vm._s(_vm.position.coords.longitude)
-                  )
-                ]),
-                _vm._v(
-                  " (accuracy: " + _vm._s(_vm.position.coords.accuracy) + ")"
-                )
-              ])
-            ])
-          : _c("p", [_vm._v("Getting your position")]),
-        _vm._v(" "),
-        _c("div", {
+        })
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
           directives: [
             {
               name: "show",
               rawName: "v-show",
-              value: _vm.position,
-              expression: "position"
+              value: _vm.showLocation,
+              expression: "showLocation"
             }
-          ],
-          attrs: { id: "map" }
-        })
-      ]
-    ),
-    _vm._v(" "),
-    _c("button", { attrs: { type: "submit", name: "submit" } }, [
-      _vm._v("Submit")
-    ])
-  ])
+          ]
+        },
+        [
+          _vm.position
+            ? _c("div", [
+                _c("p", [
+                  _c("code", [
+                    _vm._v(
+                      _vm._s(_vm.position.coords.latitude) +
+                        "," +
+                        _vm._s(_vm.position.coords.longitude)
+                    )
+                  ]),
+                  _vm._v(
+                    " (accuracy: " + _vm._s(_vm.position.coords.accuracy) + ")"
+                  )
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "hidden", name: "latitude" },
+                  domProps: { value: _vm.position.coords.latitude }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "hidden", name: "longitude" },
+                  domProps: { value: _vm.position.coords.longitude }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "hidden", name: "accuracy" },
+                  domProps: { value: _vm.position.coords.accuracy }
+                })
+              ])
+            : _c("p", [_vm._v("Getting your position")]),
+          _vm._v(" "),
+          _c("div", {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.position,
+                expression: "position"
+              }
+            ],
+            attrs: { id: "map" }
+          })
+        ]
+      ),
+      _vm._v(" "),
+      _c("button", { attrs: { type: "submit", name: "submit" } }, [
+        _vm._v("Submit")
+      ])
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
