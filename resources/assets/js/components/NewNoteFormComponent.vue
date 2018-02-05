@@ -1,6 +1,9 @@
 <template>
     <form :action="action" method="post" v-on:submit.prevent="submitForm">
         <input type="hidden" name="_token" :value="csrf">
+        <div v-if="ajax_response" :class="ajax_response.type">
+            {{ ajax_response.message }}
+        </div>
         <div v-if="showReply">
             <label for="inReplyTo">Reply To:</label>
             <input name="inReplyTo" id="inReplyTo">
@@ -28,7 +31,7 @@
         <div v-if="mediaEndpoint">
             <label for="files">Media:</label>
             <input type="file" id="files" ref="files" multiple v-on:change="handleFileUploads()">
-            <button type="button" v-on:click="submitFiles()">Upload Media</button>
+            <button type="button" name="uploadMedia" v-on:click="submitFiles()">Upload Media</button>
         </div>
         <div>
             <label for="location">Location:</label>
@@ -76,6 +79,7 @@
         },
         data: function () {
             return {
+                ajax_response: false,
                 files: '',
                 mediaurls: [],
                 position: false,
@@ -156,7 +160,8 @@
             },
             submitForm () {
                 let form = document.querySelector('form');
-                //console.log(form.note.value);
+                let button = document.querySelector('button[name="submit"]');
+                button.disabled = true;
                 let data = {};
                 if (form.note && form.note.value) {
                     data.content = form.note.value;
@@ -205,7 +210,19 @@
                     data.location.accuracy = form.accuracy.value;
                 }
                 axios.post(this.action, data).then(response => {
-                    console.log(response);
+                    if (response.data.location) {
+                        button.disabled = false;
+                        window.location.href = response.data.location;
+                        return;
+                    }
+                    if (response.data.status == 'error') {
+                        button.disabled = false;
+                        this.ajax_response = {
+                            type: 'error',
+                            message: response.data.error_description,
+                        };
+                        return;
+                    }
                 }).catch(response => {
                     console.error(response);
                 });
