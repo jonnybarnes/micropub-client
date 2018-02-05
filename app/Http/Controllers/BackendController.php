@@ -27,7 +27,11 @@ class BackendController extends Controller
      */
     public function note()
     {
-        $headers = ['Authorization' => 'Bearer ' . Auth::user()->token];
+        return response()->json([
+            'status' => 'error',
+            'error_description' => 'An error message',
+        ]);
+        /*$headers = ['Authorization' => 'Bearer ' . Auth::user()->token];
         if (Auth::user()->method == 'html5') {
             $form_params = [
                 'h' => 'entry',
@@ -135,6 +139,6 @@ class BackendController extends Controller
         return response()->json([
             'error' => 'in_request',
             'error_description' => 'There was an error creating the micropub request',
-        ], 400);
+        ], 400);*/
     }
 }
