@@ -27,11 +27,7 @@ class BackendController extends Controller
      */
     public function note()
     {
-        return response()->json([
-            'status' => 'error',
-            'error_description' => 'An error message',
-        ]);
-        /*$headers = ['Authorization' => 'Bearer ' . Auth::user()->token];
+        $headers = ['Authorization' => 'Bearer ' . Auth::user()->token];
         if (Auth::user()->method == 'html5') {
             $form_params = [
                 'h' => 'entry',
@@ -79,7 +75,10 @@ class BackendController extends Controller
                 'properties' => [],
             ];
             if (request()->has('inReplyTo')) {
-                $json['properties']['in-reply-to'] = request()->input('inReplyTo');
+                $json['properties']['in-reply-to'] = [request()->input('inReplyTo')];
+            }
+            if (request()->has('content')) {
+                $json['properties']['content'] = [request()->input('content')];
             }
             if (request()->has('syndicate')) {
                 foreach (request()->input('syndicate') as $target) {
@@ -92,9 +91,9 @@ class BackendController extends Controller
                 }
             }
             if (request()->has('location')) {
-                $json['properties']['location'] = 'geo:' . request()->input('latitude') 
+                $json['properties']['location'] = ['geo:' . request()->input('latitude') 
                                             . ',' . request()->input('longitude')
-                                          . ';u=' . request()->input('accuracy');
+                                          . ';u=' . request()->input('accuracy')];
             }
             try {
                 $response = resolve(Guzzle::class)->request(
@@ -139,6 +138,6 @@ class BackendController extends Controller
         return response()->json([
             'error' => 'in_request',
             'error_description' => 'There was an error creating the micropub request',
-        ], 400);*/
+        ], 400);
     }
 }

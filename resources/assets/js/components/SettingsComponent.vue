@@ -1,39 +1,38 @@
 <template>
     <div>
-        <table>
-            <caption>User settings</caption>
+        <table class="table is-bordered">
             <tbody>
                 <tr>
                     <th>me</th>
-                    <td>{{ userData.me }}</td>
+                    <td><code>{{ userData.me }}</code></td>
                 </tr>
                 <tr>
                     <th>token</th>
-                    <td>{{ userData.token }}</td>
+                    <td><code>{{ userData.token }}</code></td>
                 </tr>
                 <tr>
                     <th>Scope</th>
-                    <td>{{ userData.scope }}</td>
+                    <td><code>{{ userData.scope }}</code></td>
                 </tr>
                 <tr>
                     <th>Method</th>
                     <td>{{ userData.method }}</td>
                 <tr>
                     <th>Micropub Endpoint</th>
-                    <td>{{ userData.micropub_endpoint }}</td>
+                    <td><code>{{ userData.micropub_endpoint }}</code></td>
                 </tr>
                 <tr>
                     <th>Media Endpoint</th>
-                    <td>{{ userData.media_endpoint }}</td>
+                    <td><code>{{ userData.media_endpoint }}</code></td>
                 <tr>
                 <tr>
                     <th>Syndication Targets</th>
-                    <td><pre>{{ userData.syndication_targets }}</pre></td>
+                    <td><pre>{{ prettyPrint(userData.syndication_targets) }}</pre></td>
                 </tr>
             </tbody>
         </table>
         <p>We can query the micropub endpoint to check what, if any, the media endpoint and syndication targets are.</p>
-        <button type="button" v-on:click="queryEndpoint">Query Endpoint</button>
+        <p><button type="button" class="button" v-on:click="queryEndpoint">Query Endpoint</button></p>
     </div>
 </template>
 <script>
@@ -50,6 +49,13 @@
             }
         },
         methods: {
+            prettyPrint: function (jsonString) {
+                if (jsonString == null) {
+                    return null;
+                }
+
+                return JSON.stringify(JSON.parse(jsonString), null, 4);
+            },
             queryEndpoint: function () {
                 axios.get('/dashboard/settings/query', {
                     'withCredentials': true
@@ -63,3 +69,16 @@
         }
     }
 </script>
+<style>
+    table {
+        width: 100%;
+        table-layout: fixed;
+    }
+    th {
+        width: 20%;
+        min-width: 100px;
+    }
+    code {
+        overflow-wrap: break-word;
+    }
+</style>

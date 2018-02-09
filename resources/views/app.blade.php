@@ -13,7 +13,19 @@
         @yield('head')
     </head>
     <body>
-        <div id="app">@yield('main')</div>
+        <div id="app">
+            <nav class="navbar">
+                <div class="navbar-brand">
+                    <h1 class="is-size-2">Micropub Client</h1>
+                </div>
+                @if(Auth::user())<div class="navbar-end">
+                    <div class="navbar-item">
+                        <logout-form action="{{ route('logout') }}" csrf="{{ csrf_token() }}"></logout-form>
+                    </div>
+                </div>@endif
+            </nav>
+            <div class="container">@yield('main')</div>
+        </div>
         <script src="/js/app.js"></script>
     </body>
 </html>
