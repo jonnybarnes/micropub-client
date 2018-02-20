@@ -21,5 +21,9 @@
         </div>
     @endforeach
 @endif
-<new-note-form action="{{ route('post-note') }}" csrf="{{ csrf_token() }}" media-endpoint="{{ $mediaEndpoint }}" :targets="{{ $targets }}" token="{{ $token }}"></new-note-form>
+{{--
+    The targets attribute has an empty object passed to it in case
+    we have no defined syndication targets.
+--}}
+<new-note-form action="{{ route('post-note') }}" csrf="{{ csrf_token() }}" media-endpoint="{{ $mediaEndpoint }}" :targets="{{ $targets ?? '{}' }}" token="{{ $token }}"></new-note-form>
 @endsection

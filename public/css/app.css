@@ -3,3 +3,21 @@ body {
   color: #d9e0fc;
 }
 
+header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.container {
+  margin: 0 auto;
+  padding-left: 10em;
+  padding-right: 10em;
+}
+

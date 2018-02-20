@@ -9,22 +9,22 @@
         <title>{{ config('app.name') }}</title>
 
         <link rel="stylesheet" href="/css/app.css">
-
         @yield('head')
+
     </head>
     <body>
         <div id="app">
-            <nav>
+            <header>
                 <div>
-                    <h1>Micropub Client</h1>
+                    <h1><a href="/">Micropub Client</a></h1>
                 </div>
-                @if(Auth::user())<div>
-                    <div>
+                <div>@if(Auth::user())
                         <logout-form action="{{ route('logout') }}" csrf="{{ csrf_token() }}"></logout-form>
-                    </div>
-                </div>@endif
-            </nav>
-            <div>@yield('main')</div>
+@endif
+
+                </div>
+            </header>
+            <div class="container">@yield('main')</div>
         </div>
         <script src="/js/app.js"></script>
     </body>

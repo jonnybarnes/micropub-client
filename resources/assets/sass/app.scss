@@ -2,3 +2,15 @@ body {
     background: hsla(0, 13%, 6%, 1);
     color: hsla(228, 84%, 92%, 1);
 }
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container {
+    margin: 0 auto;
+    padding-left: 10em;
+    padding-right: 10em;
+}

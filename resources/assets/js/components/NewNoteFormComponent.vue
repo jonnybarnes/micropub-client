@@ -19,7 +19,7 @@
                 <textarea name="note" id="note"></textarea>
             </div>
         </div>
-        <div v-if="targets">
+        <div v-if="Object.keys(targets).length > 0">
             <fieldset>
                 <legend>Syndication</legend>
                 <template v-for="target in targets">
@@ -83,7 +83,15 @@
                 required: false,
             },
             targets: {
+                /*
+                    The targets object should be empty if we
+                    have no syndication targets. Or contain the
+                    required information.
+                */
                 validator: function (value) {
+                    if (Object.keys(value).length === 0) {
+                        return true;
+                    }
                     return value[0].hasOwnProperty('uid')
                         && value[0].hasOwnProperty('name');
                 },
