@@ -1,8 +1,8 @@
 <template>
     <form :action="action" method="post">
         <input type="hidden" name="_token" :value="csrf">
-        <div class="control">
-            <button type="submit" class="button is-outlined">Logout</button>
+        <div>
+            <button type="submit">Logout</button>
         </div>
     </form>
 </template>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="table is-bordered">
+        <table>
             <tbody>
                 <tr>
                     <th>me</th>
@@ -32,7 +32,7 @@
             </tbody>
         </table>
         <p>We can query the micropub endpoint to check what, if any, the media endpoint and syndication targets are.</p>
-        <p><button type="button" class="button" v-on:click="queryEndpoint">Query Endpoint</button></p>
+        <p><button type="button" v-on:click="queryEndpoint">Query Endpoint</button></p>
     </div>
 </template>
 <script>

@@ -5,28 +5,28 @@
             {{ ajax_response.message }}
         </div>
         <div v-if="showReply" class="field">
-            <label for="inReplyTo" class="label">Reply To:</label>
-            <div class="control">
-                <input name="inReplyTo" id="inReplyTo" class="input">
+            <label for="inReplyTo">Reply To:</label>
+            <div>
+                <input name="inReplyTo" id="inReplyTo">
             </div>
         </div>
-        <div class="field">
+        <div>
             <button type="button" v-if="showReply == false" v-on:click="showReply = !showReply">Reply</button>
         </div>
-        <div class="field">
-            <label for="note" class="label">Note:</label>
-            <div class="control">
-                <textarea name="note" id="note" class="textarea"></textarea>
+        <div>
+            <label for="note">Note:</label>
+            <div>
+                <textarea name="note" id="note"></textarea>
             </div>
         </div>
-        <div v-if="targets" class="field">
+        <div v-if="targets">
             <fieldset>
                 <legend>Syndication</legend>
                 <template v-for="target in targets">
-                    <div class="control">
-                        <label :for="target.uid" class="checkbox">
+                    <div>
+                        <label :for="target.uid">
                             {{ target.name }}
-                            <input :id="target.uid" name="mp-syndicate-to[]" type="checkbox" :value="target.uid" class="checkbox">
+                            <input :id="target.uid" name="mp-syndicate-to[]" type="checkbox" :value="target.uid">
                         </label>
                     </div>
                 </template>
@@ -38,30 +38,23 @@
                 <input type="checkbox" checked="checked" :value="media" :id="media" name="media[]">
             </div>
         </div>
-        <div v-if="mediaEndpoint" class="field">
-            <div class="file is-boxed">
-                <label class="file-label">
-                    <input type="file" id="files" ref="files" multiple v-on:change="handleFileUploads()" class="file-input">
-                    <span class="file-cta">
-                        <span class="file-label">
-                            Choose a file…
-                        </span>
-                    </span>
-                    <span v-for="file of files" class="file-name">
-                        {{ file.name }}
-                    </span>
-                </label>
+        <div v-if="mediaEndpoint">
+            <div>
+                <input type="file" id="files" ref="files" multiple v-on:change="handleFileUploads()">
+                <div v-for="file of files" >
+                    {{ file.name }}
+                </div>
             </div>
-            <button type="button" name="uploadMedia" v-on:click="submitFiles()" class="button">Upload Media</button>
+            <button type="button" name="uploadMedia" v-on:click="submitFiles()">Upload Media</button>
         </div>
-        <div class="field">
-            <div class="control">
-                <label for="location" class="checkbox">
-                    Location: <input type="checkbox" id="location" name="location" v-model="showLocation" class="checkbox">
+        <div>
+            <div>
+                <label for="location">
+                    Location: <input type="checkbox" id="location" name="location" v-model="showLocation">
                 </label>
             </div>
         </div>
-        <div v-show="showLocation" class="field">
+        <div v-show="showLocation">
             <div v-if="position">
                 <p><code>{{ position.coords.latitude }},{{ position.coords.longitude }}</code> (accuracy: {{ position.coords.accuracy }})</p>
                 <input type="hidden" name="latitude" :value="position.coords.latitude">
@@ -71,7 +64,7 @@
             <p v-else>Getting your position</p>
             <div id="map" style="height: 200px; width: 100%" v-show="position"></div>
         </div>
-        <button type="submit" name="submit" class="button is-primary">Submit</button>
+        <button type="submit" name="submit">Submit</button>
     </form>
 </template>
 <script>

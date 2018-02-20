@@ -14,17 +14,17 @@
     </head>
     <body>
         <div id="app">
-            <nav class="navbar">
-                <div class="navbar-brand">
-                    <h1 class="is-size-2">Micropub Client</h1>
+            <nav>
+                <div>
+                    <h1>Micropub Client</h1>
                 </div>
-                @if(Auth::user())<div class="navbar-end">
-                    <div class="navbar-item">
+                @if(Auth::user())<div>
+                    <div>
                         <logout-form action="{{ route('logout') }}" csrf="{{ csrf_token() }}"></logout-form>
                     </div>
                 </div>@endif
             </nav>
-            <div class="container">@yield('main')</div>
+            <div>@yield('main')</div>
         </div>
         <script src="/js/app.js"></script>
     </body>
