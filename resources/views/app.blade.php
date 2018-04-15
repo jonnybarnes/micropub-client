@@ -8,6 +8,7 @@
 
         <title>{{ config('app.name') }}</title>
 
+        <link rel="stylesheet" href="https://use.typekit.net/jwb7pmj.css">
         <link rel="stylesheet" href="/css/app.css">
         @yield('head')
 
@@ -16,7 +17,7 @@
         <div id="app">
             <header>
                 <div>
-                    <h1><a href="/">Micropub Client</a></h1>
+                    <h1><a href="/">Jonny’s Micropub Client</a></h1>
                 </div>
                 <div>@if(Auth::user())
                         <logout-form action="{{ route('logout') }}" csrf="{{ csrf_token() }}"></logout-form>
