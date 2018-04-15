@@ -1,0 +1,121 @@
+html {
+  min-height: 100vh;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+}
+
+body {
+  background: linear-gradient(217deg, rgba(255, 0, 0, 0.8), rgba(255, 0, 0, 0) 70.71%), linear-gradient(127deg, rgba(0, 255, 0, 0.8), rgba(0, 255, 0, 0) 70.71%), linear-gradient(336deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0) 70.71%);
+  color: #010418;
+  text-shadow: 1px 1px 0 rgba(1, 4, 24, 0.2);
+  font-family: "proxima-soft", sans-serif;
+}
+
+header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+header a,
+header a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+header a:hover {
+  border-bottom: 2px solid rgba(1, 4, 24, 0.5);
+}
+
+@media (min-width: 501px) {
+  .container {
+    margin: 0 auto;
+    padding-left: 10em;
+    padding-right: 10em;
+  }
+}
+
+@media (max-width: 500px) {
+  .container {
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+a,
+a:visited {
+  color: #4254f0;
+  text-decoration: none;
+}
+
+a:hover {
+  border-bottom: 2px solid rgba(66, 84, 240, 0.5);
+}
+
+a:focus {
+  outline: solid 2px;
+}
+
+form > div {
+  margin-bottom: 1rem;
+}
+
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  height: auto;
+}
+
+@media (min-width: 501px) {
+  textarea {
+    min-width: 20rem;
+  }
+}
+
+@media (max-width: 500px) {
+  textarea {
+    width: 100%;
+  }
+}
+
+.syndication-checkbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  padding: 0.2rem 0.5rem;
+  height: 2rem;
+}
+
+.syndication-checkbox img {
+  display: inline;
+  width: 1rem;
+  height: 1rem;
+}
+
+.syndication-checkbox span {
+  height: 1rem;
+}
+
+.media-preview img {
+  width: auto;
+  height: 25vh;
+}
+
