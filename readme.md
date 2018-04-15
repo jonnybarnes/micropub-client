@@ -4,7 +4,7 @@ Still searching for a better name, currently at [`https://microclient.jonnybarne
 
 ## Changelog
 
-### v{next}
+### v0.1.1
   - Slightly improve flex layout
   - Add basic footer
 
