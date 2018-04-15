@@ -8,7 +8,7 @@
         "php": ">=7.2.0",
         "fideloper/proxy": "~4.0",
         "guzzlehttp/guzzle": "^6.3",
-        "indieauth/client": "^0.2.4",
+        "indieauth/client": "^0.4.0",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "~1.0"
     },
