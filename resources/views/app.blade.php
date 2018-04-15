@@ -26,6 +26,9 @@
                 </div>
             </header>
             <div class="container">@yield('main')</div>
+            <footer>
+                <p>Running release <code>{{ config('app.version') }}</code></p>
+            </footer>
         </div>
         <script src="/js/app.js"></script>
     </body>
