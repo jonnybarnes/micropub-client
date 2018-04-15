@@ -20,17 +20,17 @@
             </div>
         </div>
         <div v-if="Object.keys(targets).length > 0">
-            <fieldset>
-                <legend>Syndication</legend>
-                <template v-for="target in targets">
-                    <div>
-                        <label :for="target.uid">
-                            {{ target.name }}
-                            <input :id="target.uid" name="mp-syndicate-to[]" type="checkbox" :value="target.uid">
-                        </label>
-                    </div>
-                </template>
-            </fieldset>
+            <p>Syndication:</p>
+            <template v-for="target in targets">
+                <div class="syndication-checkbox">
+                    <label :for="target.uid">
+                        <img v-if="target.service.photo" :src="target.service.photo">
+                        <span v-if="target.user.name">{{ target.user.name }}</span>
+                        <span v-else>{{ target.name }}</span>
+                        <input :id="target.uid" name="mp-syndicate-to[]" type="checkbox" :value="target.uid">
+                    </label>
+                </div>
+            </template>
         </div>
         <div v-if="mediaurls.length > 0" class="media-preview">
             <div v-for="media in mediaurls">
