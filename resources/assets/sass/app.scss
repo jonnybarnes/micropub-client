@@ -1,6 +1,14 @@
+html {
+    min-height: 100vh;
+}
+
 body {
-    background: hsla(0, 13%, 6%, 1);
-    color: hsla(228, 84%, 92%, 1);
+    background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
+                linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
+                linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
+    color: hsla(233, 89%, 5%, 1);
+    text-shadow: 1px 1px 0 hsla(233, 89%, 5%, 0.2);
+    font-family: "proxima-soft", sans-serif;
 }
 
 header {
@@ -9,8 +17,48 @@ header {
     align-items: center;
 }
 
+header a,
+header a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+header a:hover {
+    border-bottom: 2px solid hsla(233, 89%, 5%, 0.5);
+}
+
 .container {
     margin: 0 auto;
     padding-left: 10em;
     padding-right: 10em;
+}
+
+a,
+a:visited {
+    color: hsla(234, 85%, 60%, 1);
+    text-decoration: none;
+}
+
+a:hover {
+    border-bottom: 2px solid hsla(234, 85%, 60%, 0.5);
+}
+
+a:focus {
+    outline: solid 2px;
+}
+
+form > div {
+    margin-bottom: 1rem;
+}
+
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    height: auto;
+    min-width: 20rem;
+}
+
+.media-preview img {
+    width: auto;
+    height: 25vh;
 }

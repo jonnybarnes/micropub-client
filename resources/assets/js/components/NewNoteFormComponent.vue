@@ -4,7 +4,7 @@
         <div v-if="ajax_response" :class="ajax_response.type">
             {{ ajax_response.message }}
         </div>
-        <div v-if="showReply" class="field">
+        <div v-if="showReply">
             <label for="inReplyTo">Reply To:</label>
             <div>
                 <input name="inReplyTo" id="inReplyTo">
@@ -16,7 +16,7 @@
         <div>
             <label for="note">Note:</label>
             <div>
-                <textarea name="note" id="note"></textarea>
+                <textarea name="note" id="note" rows="5"></textarea>
             </div>
         </div>
         <div v-if="Object.keys(targets).length > 0">
@@ -32,7 +32,7 @@
                 </template>
             </fieldset>
         </div>
-        <div v-if="mediaurls.length > 0" class="field">
+        <div v-if="mediaurls.length > 0" class="media-preview">
             <div v-for="media in mediaurls">
                 <label :for="media"><img :src="media"></label>
                 <input type="checkbox" checked="checked" :value="media" :id="media" name="media[]">
