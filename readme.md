@@ -4,6 +4,9 @@ Still searching for a better name, currently at [`https://microclient.jonnybarne
 
 ## Changelog
 
+### v{next}
+  - Fix sending location data with micropub request (issue#1)
+
 ### v0.1.1
   - Slightly improve flex layout
   - Add basic footer
