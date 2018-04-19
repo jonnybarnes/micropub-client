@@ -1,23 +1,25 @@
 html {
     min-height: 100vh;
     box-sizing: border-box;
+    background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
+                linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
+                linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
 }
 
 *, *:before, *:after {
     box-sizing: inherit;
 }
 
-body {
-    background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
-                linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
-                linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
+#app {
     color: hsla(233, 89%, 5%, 1);
     text-shadow: 1px 1px 0 hsla(233, 89%, 5%, 0.2);
     font-family: "proxima-soft", sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
-    display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
@@ -34,7 +36,6 @@ header a:hover {
 
 @media (min-width: 501px) {
     .container {
-        margin: 0 auto;
         padding-left: 10em;
         padding-right: 10em;
     }
