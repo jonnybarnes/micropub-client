@@ -4,7 +4,7 @@ Still searching for a better name, currently at [`https://microclient.jonnybarne
 
 ## Changelog
 
-### v{next}
+### v0.1.2
   - Fix sending location data with micropub request (issue#1)
 
 ### v0.1.1
