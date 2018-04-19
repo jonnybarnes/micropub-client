@@ -50,7 +50,7 @@
         <div>
             <div>
                 <label for="location">
-                    Location: <input type="checkbox" id="location" name="location" v-model="showLocation">
+                    Location: <input type="checkbox" id="location" name="location" value="true" v-model="showLocation">
                 </label>
             </div>
         </div>
@@ -234,7 +234,7 @@
                         }
                     }
                 }
-                if (form.location && form.location.value == true) {
+                if (form.location && form.location.checked == true) {
                     data.location = {};
                     data.location.latitude = form.latitude.value;
                     data.location.longitude = form.longitude.value;

@@ -91,9 +91,9 @@ class BackendController extends Controller
                 }
             }
             if (request()->has('location')) {
-                $json['properties']['location'] = ['geo:' . request()->input('latitude') 
-                                            . ',' . request()->input('longitude')
-                                          . ';u=' . request()->input('accuracy')];
+                $json['properties']['location'] = ['geo:' . request()->input('location.latitude') 
+                                            . ',' . request()->input('location.longitude')
+                                            . ';u=' . request()->input('location.accuracy')];
             }
             try {
                 $response = resolve(Guzzle::class)->request(
