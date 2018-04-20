@@ -2,6 +2,9 @@
 
 Still searching for a better name, currently at [`https://microclient.jonnybarnes.uk`](https://microclient.jonnybarnes.uk).
 
+Sign up with your domain and start posting away. One caveat, for media uploads, the webapp POSTs
+directly to you media-endpoint, so beware of CORS restrictions.
+
 ## Changelog
 
 ### v0.1.2
