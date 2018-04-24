@@ -1,5 +1,4 @@
 html {
-    min-height: 100vh;
     box-sizing: border-box;
     background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
                 linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
@@ -10,18 +9,26 @@ html {
     box-sizing: inherit;
 }
 
+body {
+    margin: 0;
+}
+
 #app {
     color: hsla(233, 89%, 5%, 1);
     text-shadow: 1px 1px 0 hsla(233, 89%, 5%, 0.2);
     font-family: "proxima-soft", sans-serif;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
+    display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    padding: 0 1rem;
 }
 
 header a,
@@ -32,6 +39,10 @@ header a:visited {
 
 header a:hover {
     border-bottom: 2px solid hsla(233, 89%, 5%, 0.5);
+}
+
+.container {
+    flex: 1 0 auto;
 }
 
 @media (min-width: 501px) {
@@ -105,4 +116,16 @@ textarea {
 .media-preview img {
     width: auto;
     height: 25vh;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    height: 4rem;
+}
+
+footer p {
+    margin: 0;
 }

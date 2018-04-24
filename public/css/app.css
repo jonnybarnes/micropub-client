@@ -1,5 +1,4 @@
 html {
-  min-height: 100vh;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   background: linear-gradient(217deg, rgba(255, 0, 0, 0.8), rgba(255, 0, 0, 0) 70.71%), linear-gradient(127deg, rgba(0, 255, 0, 0.8), rgba(0, 255, 0, 0) 70.71%), linear-gradient(336deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0) 70.71%);
@@ -10,6 +9,10 @@ html {
 *:after {
   -webkit-box-sizing: inherit;
           box-sizing: inherit;
+}
+
+body {
+  margin: 0;
 }
 
 #app {
@@ -23,19 +26,26 @@ html {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  min-height: 100vh;
 }
 
 header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  padding: 0 1rem;
 }
 
 header a,
@@ -46,6 +56,12 @@ header a:visited {
 
 header a:hover {
   border-bottom: 2px solid rgba(1, 4, 24, 0.5);
+}
+
+.container {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 auto;
+          flex: 1 0 auto;
 }
 
 @media (min-width: 501px) {
@@ -124,5 +140,24 @@ textarea {
 .media-preview img {
   width: auto;
   height: 25vh;
+}
+
+footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  height: 4rem;
+}
+
+footer p {
+  margin: 0;
 }
 

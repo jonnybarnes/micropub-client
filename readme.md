@@ -7,6 +7,11 @@ directly to you media-endpoint, so beware of CORS restrictions.
 
 ## Changelog
 
+### v{next}
+  - Improve flex based layout
+    - Header now uses `flex-direction` and `flex-wrap`
+    - Flex is used to achieve a “sticky” footer
+
 ### v0.1.2
   - Fix sending location data with micropub request (issue#1)
 
