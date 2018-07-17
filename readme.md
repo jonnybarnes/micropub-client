@@ -7,10 +7,11 @@ directly to you media-endpoint, so beware of CORS restrictions.
 
 ## Changelog
 
-### v{next}
+### v0.1.3
   - Improve flex based layout
     - Header now uses `flex-direction` and `flex-wrap`
     - Flex is used to achieve a “sticky” footer
+  - Improve uploading of pictures, in particular the file picker on the new ote form
 
 ### v0.1.2
   - Fix sending location data with micropub request (issue#1)
