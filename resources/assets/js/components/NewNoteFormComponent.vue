@@ -40,10 +40,7 @@
         </div>
         <div v-if="mediaEndpoint">
             <div>
-                <input type="file" id="files" ref="files" multiple v-on:change="handleFileUploads()">
-                <div v-for="file of files" >
-                    {{ file.name }}
-                </div>
+                <input type="file" id="files" ref="files" multiple>
             </div>
             <button type="button" name="uploadMedia" v-on:click="submitFiles()">Upload Media</button>
         </div>
@@ -105,7 +102,6 @@
         data: function () {
             return {
                 ajax_response: false,
-                files: [],
                 mediaurls: [],
                 position: false,
                 showLocation: false,
@@ -161,14 +157,9 @@
                     );
                 }
             },
-            handleFileUploads() {
-                let fileInput = document.querySelector('#files');
-                for (let file of fileInput.files) {
-                    this.files.push(file);
-                }
-            },
             submitFiles() {
-                for (let file of this.files) {
+                let files = document.querySelector('#files').files;
+                Array.from(files).forEach(file => {
                     let formData = new FormData();
                     formData.append('file', file);
                     axios.post(
@@ -181,13 +172,13 @@
                             }
                         }
                     ).then(response => {
-                        window.setTimeout(() => {
-                            this.mediaurls.push(response.data.location);
-                        }, 3000);
+                        this.mediaurls.push(response.data.location);
                     }).catch(response => {
                         console.error(response);
                     });
-                }
+                });
+                // reset file selector, so a user can upload more files
+                document.querySelector('#files').value = '';
             },
             submitForm () {
                 let form = document.querySelector('form[name="newnote"]');
