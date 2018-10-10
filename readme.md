@@ -9,6 +9,7 @@ directly to you media-endpoint, so beware of CORS restrictions.
 
 ### develop
   - Upgrade the underlying Laravel framework to v5.7
+  - Add Nuno Maduro’s Collision package
 
 ### v0.1.3
   - Improve flex based layout
