@@ -7,6 +7,9 @@ directly to you media-endpoint, so beware of CORS restrictions.
 
 ## Changelog
 
+### develop
+  - Upgrade the underlying Laravel framework to v5.7
+
 ### v0.1.3
   - Improve flex based layout
     - Header now uses `flex-direction` and `flex-wrap`
