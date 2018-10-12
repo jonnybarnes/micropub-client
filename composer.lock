@@ -2910,16 +2910,16 @@
         },
         {
             "name": "codedungeon/phpunit-result-printer",
-            "version": "0.23.2",
+            "version": "0.23.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikeerickson/phpunit-pretty-result-printer.git",
-                "reference": "e65f09d7dcc1ef4af0d7fe63df2c368d9357f2d3"
+                "reference": "6a993621da02e12e6aba4421fc870f7895eb9ec4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikeerickson/phpunit-pretty-result-printer/zipball/e65f09d7dcc1ef4af0d7fe63df2c368d9357f2d3",
-                "reference": "e65f09d7dcc1ef4af0d7fe63df2c368d9357f2d3",
+                "url": "https://api.github.com/repos/mikeerickson/phpunit-pretty-result-printer/zipball/6a993621da02e12e6aba4421fc870f7895eb9ec4",
+                "reference": "6a993621da02e12e6aba4421fc870f7895eb9ec4",
                 "shasum": ""
             },
             "require": {
@@ -2959,7 +2959,7 @@
                 "result-printer",
                 "testing"
             ],
-            "time": "2018-10-05T19:52:19+00:00"
+            "time": "2018-10-12T16:34:18+00:00"
         },
         {
             "name": "doctrine/instantiator",
