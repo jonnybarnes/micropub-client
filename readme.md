@@ -7,6 +7,11 @@ directly to you media-endpoint, so beware of CORS restrictions.
 
 ## Changelog
 
+### v0.2
+  - Upgrade the underlying Laravel framework to v5.7
+  - Add Nuno Maduro’s Collision package
+  - Add the Phpunit Pretty Printer
+
 ### v0.1.3
   - Improve flex based layout
     - Header now uses `flex-direction` and `flex-wrap`

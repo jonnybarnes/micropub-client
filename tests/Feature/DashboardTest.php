@@ -30,7 +30,7 @@ class DashboardTest extends TestCase
     }
 
     /** @test */
-    public function check_unauthed_request_to_dashboar_redirects_to_login()
+    public function check_unauthed_request_to_dashboard_redirects_to_login()
     {
         $response = $this->get('/dashboard');
         $response->assertRedirect('/login');

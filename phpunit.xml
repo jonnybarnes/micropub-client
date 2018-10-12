@@ -6,6 +6,7 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
+         printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
@@ -22,6 +23,9 @@
             <directory suffix=".php">./app</directory>
         </whitelist>
     </filter>
+    <listeners>
+        <listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener"/>
+    </listeners>
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="CACHE_DRIVER" value="array"/>
